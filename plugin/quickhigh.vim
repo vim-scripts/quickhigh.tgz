@@ -4,8 +4,8 @@
 " ':clist'.
 "
 " Version:
-"   $Revision: 1.14 $
-"   $Date: 2001/11/09 02:33:22 $
+"   $Revision: 1.15 $
+"   $Date: 2002/01/02 01:34:59 $
 "
 " Author:
 " Brian Medley <freesoftware@4321.tv>
@@ -284,6 +284,7 @@ function s:ParseClist()
 
             let file = fnamemodify(strpart(s:clist, fstart, (fend-fstart)), ':p')
             let line = strpart(s:clist, lstart, (lend - lstart))
+            let line = substitute(line, '\(\d*\).*', '\1', '')
 
             " echo "file: " . file
             " echo "line: " . line

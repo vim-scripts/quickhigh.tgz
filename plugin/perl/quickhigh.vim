@@ -33,6 +33,9 @@ sub ParseClist {
         # if fnamemodify was passed an empty string (after clist number was removed)
         next if -d $file;
 
+        # if column information is given in the compiler 
+        $line =~ s/(\d*).*/$1/;
+
         if ("QuickHighGrep" ne $sign) {
             $text = quotemeta $text;
             (undef, $sign) = VIM::Eval("s:GetSign(\"$text\")");
