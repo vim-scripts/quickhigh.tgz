@@ -1,0 +1,9 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=124
+
+This is a plugin for highlighting quickfix errors.
+
+It provides mappings for manualy adding the highlights and commands to automatically add the highlights.
+It has the ability to work with both the :make and :grep commands.
+It also has the ability to distinguish between warning and error compiler messages.  
+
+Please see the documenation for configuration (help quickhigh.txt after installation).
