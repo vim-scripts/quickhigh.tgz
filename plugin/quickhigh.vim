@@ -4,8 +4,8 @@
 " ':clist'.
 "
 " Version:
-"   $Revision: 1.12 $
-"   $Date: 2001/10/23 01:44:50 $
+"   $Revision: 1.14 $
+"   $Date: 2001/11/09 02:33:22 $
 "
 " Author:
 " Brian Medley <freesoftware@4321.tv>
@@ -21,7 +21,7 @@ if 0 == has("signs")
 endif
 
 if has("perl")
-    source <sfile>:p:h/quickhigh.perl
+    source <sfile>:p:h/perl/quickhigh.vim
 endif
 
 let s:num_signs = 0
@@ -247,21 +247,8 @@ function s:ParseClist()
     " reset the error list
     let s:error_list = ""
 
-    if "QuickHighGrep" == s:signName
-        let sign = "QuickHighGrep"
-    else
+    if "QuickHighGrep" != s:signName
         let sign = ""
-        " if exists("b:quickhigh_error_re")
-        "     let s:error_re = b:quickhigh_error_re
-        " else
-        "     let s:error_re = "\<nul>"
-        " endif
-        "
-        " if exists("b:quickhigh_warning_re")
-        "     let s:warning_re = b:quickhigh_warning_re
-        " else
-        "     let s:warning_re = "\<nul>"
-        " endif
     endif
 
     if has("perl")
@@ -302,10 +289,10 @@ function s:ParseClist()
             " echo "line: " . line
 
             if "QuickHighGrep" != sign
-                let sign = s:GetSign(strpart(s:clist, lend, (partend - lend))
+                let sign = s:GetSign(strpart(s:clist, lend, (partend - lend)))
             endif
 
-            let s:error_list = s:error_list . sign . ":" . file . ":" . line . ":"
+            let s:error_list = s:error_list . sign . "¬" . file . "¬" . line . "¬"
         endwhile
     endif
 
@@ -386,7 +373,7 @@ function s:AddSignsActual(which, sign)
     " sign1:file1:line1:sign2:file2:line2:
     let pos = 0
     while (1)
-        let send = match(s:error_list, ':', pos)
+        let send = match(s:error_list, '¬', pos)
         if -1 == send
             break
         endif
@@ -394,11 +381,11 @@ function s:AddSignsActual(which, sign)
 
         if a:sign == sign
             let pos  = send + 1
-            let fend = match(s:error_list, ':', pos)
+            let fend = match(s:error_list, '¬', pos)
             let file = strpart(s:error_list, pos, (fend - pos))
 
             let pos  = fend + 1
-            let lend = match(s:error_list, ':', pos)
+            let lend = match(s:error_list, '¬', pos)
             let line = strpart(s:error_list, pos, (lend - pos))
             let pos  = lend + 1
 
@@ -419,8 +406,8 @@ function s:AddSignsActual(which, sign)
             endif
 
         else
-            let pos  = match(s:error_list, ':', send + 1) " skip file
-            let pos  = match(s:error_list, ':', pos + 1)  " skip line
+            let pos  = match(s:error_list, '¬', send + 1) " skip file
+            let pos  = match(s:error_list, '¬', pos + 1)  " skip line
             let pos  = pos + 1
         endif
     endwhile
